@@ -30,4 +30,5 @@ done
 shift $((OPTIND -1))
 
 # Run the generator with the specified arguments
-./target/release/ts_microservice_generator -n "$NAME" -v "$VERSION" -a "$AUTHOR" -b "$ABOUT"
+# Assuming the binary will be installed globally and is in the PATH
+ts_microservice_generator -n "$NAME" -v "$VERSION" -a "$AUTHOR" -b "$ABOUT"
