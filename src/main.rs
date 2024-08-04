@@ -6,7 +6,7 @@ use tera::{Context, Tera};
 fn main() {
     // Define and parse command-line arguments
     let matches = Command::new("TypeScript Microservice Generator")
-        .disable_version_flag(true)
+        .disable_version_flag(true) // Disable the default version flag
         .arg(
             Arg::new("version")
                 .short('v')
@@ -58,33 +58,37 @@ fn main() {
     // Create the project directory
     fs::create_dir_all(project_path).expect("Failed to create project directory");
 
-    // Initialize Tera with templates
+    // Initialize Tera with templates located in the templates directory
     let tera = Tera::new(concat!(env!("CARGO_MANIFEST_DIR"), "/templates/**/*"))
         .expect("Error loading templates");
 
-    // Create a context for the templates
+    // Create a context for the templates and insert project details
     let mut context = Context::new();
     context.insert("project_name", &project_name);
     context.insert("project_version", &version);
     context.insert("project_author", &author);
     context.insert("project_description", &about);
 
-    // Render and write the project files
+    // List of template files to render and write
     let files = vec!["package.json.tera", "tsconfig.json.tera"];
     for file in files {
+        // Render the template with the context
         let rendered = tera.render(file, &context).expect("Error rendering template");
+        // Remove the .tera extension to get the final file name
         let file_name = file.trim_end_matches(".tera");
         let file_path = project_path.join(file_name);
+        // Write the rendered content to the file
         fs::write(file_path, rendered).expect("Error writing file");
     }
 
-    // Create additional directories
+    // List of additional directories to create within the project
     let dirs = vec!["src", "src/controllers", "src/models", "src/services", "src/config"];
     for dir in dirs {
+        // Create each directory
         fs::create_dir_all(project_path.join(dir)).expect("Error creating directory");
     }
 
-    // Create a basic index.ts file
+    // Content for the basic index.ts file
     let index_content = r#"import express from 'express';
 import dotenv from 'dotenv';
 
@@ -102,7 +106,9 @@ app.listen(port, () => {
 });
 "#;
 
+    // Write the index.ts file to the src directory
     fs::write(project_path.join("src/index.ts"), index_content).expect("Error writing index.ts");
 
+    // Print success message
     println!("Project {} generated successfully", project_name);
 }
