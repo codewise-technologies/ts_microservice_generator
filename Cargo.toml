@@ -1,6 +1,6 @@
 [package]
 name = "ts_microservice_generator"
-version = "0.1.4"
+version = "0.1.6"
 authors = ["CodewiseTech <dev@codewisetech.biz>"]
 edition = "2021"
 description = "A CLI tool to generate TypeScript microservice projects."
@@ -16,4 +16,4 @@ name = "ts_microservice_generator"
 path = "src/main.rs"
 
 [package.metadata]
-include = ["templates/**/*"]
+include = ["src/templates/**/*"]

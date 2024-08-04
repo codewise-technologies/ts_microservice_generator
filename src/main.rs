@@ -59,12 +59,12 @@ fn main() {
     fs::create_dir_all(project_path).expect("Failed to create project directory");
 
     // Initialize Tera with templates
-    let tera = Tera::new("templates/**/*").expect("Error loading templates");
+    let tera = Tera::new("src/templates/**/*.tera").expect("Error loading templates");
 
     // Create a context for the templates
     let mut context = Context::new();
     context.insert("project_name", &project_name);
-    context.insert("project_version", &version); // Ensure the variable name matches the template
+    context.insert("project_version", &version);
     context.insert("project_author", &author);
     context.insert("project_description", &about);
 
